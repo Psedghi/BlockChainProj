@@ -25,6 +25,8 @@ public class Block {
     private String data;
     //the timeStamp will be used to track when the block was created (in milliseconds)
     private long timeStamp;
+    //this will be used for the mining process
+    private int count;
 
     //Creating the block constructor
     public Block(String data, String previousHash) {
@@ -46,6 +48,23 @@ public class Block {
                         data
         );
         return calculatedHash; //make sure this is set AFTER all other values are set!
+    }
+
+    /*
+    now we want to create a method called mineBlock that will be used to mine the block
+    we want to make sure that the hash of the block starts with a certain number of 0's
+    this is called proof of work. The more 0's, the harder it is to mine the block
+     */
+
+    public void mineBlock(int difficulty){
+        //create a string with difficulty * "0"
+        String target = new String(new char[difficulty]).replace('\0', '0');
+        //while the hash of the block doesn't start with the target, keep incrementing the count
+        while(!hash.substring(0, difficulty).equals(target)){
+            count++;
+            hash = calculateHash();
+        }
+        System.out.println("Block mined! : " + hash);
     }
 
 }
